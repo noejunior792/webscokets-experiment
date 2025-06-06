@@ -2,21 +2,21 @@ FROM php:8.2-apache
 
 # Instalar dependências do sistema
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    zip \
-    unzip \
-    git \
-    curl \
-    libonig-dev \
-    libpng-dev \
-    libxml2-dev \
-    libsqlite3-dev \
-    sqlite3 \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    supervisor \
-    gnupg \
-    ca-certificates
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    libonig-dev \
+    libpng-dev \
+    libxml2-dev \
+    libsqlite3-dev \
+    sqlite3 \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    supervisor \
+    gnupg \
+    ca-certificates
 
 # Instalar extensões PHP
 RUN docker-php-ext-install pdo_mysql pdo_sqlite zip
@@ -42,15 +42,15 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Instalar Node.js e npm (Node 22.x, compatível com Laravel Mix/Vite)
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs
 
 # Instalar dependências JS e buildar frontend
 RUN npm install && npm run build
 
 # Criar e configurar SQLite + permissões
 RUN mkdir -p database && \
-    touch database/database.sqlite && \
-    chown -R www-data:www-data database storage bootstrap/cache
+    touch database/database.sqlite && \
+    chown -R www-data:www-data database storage bootstrap/cache
 
 # Copiar configuração do Supervisor
 COPY ./docker/supervisord.conf /etc/supervisord.conf
